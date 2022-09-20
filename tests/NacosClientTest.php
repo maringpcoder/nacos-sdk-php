@@ -122,16 +122,18 @@ class NacosClientTest extends TestCase
 
     public function testLogin()
     {
-        $client = new NacosClient('192.168.13.189', 8848);
+        $client = new NacosClient('127.0.0.1', 8848);
         $auth = new NacosAuth($client);
         $auth->login('nacos','nacos');
-
-        $dataId = 'database.php';
-        $group = 'DEFAULT_GROUP';
-        $value = '2021';
-
-        $client = new NacosClient('192.168.13.189', 8848);
-        $newValue = $client->getConfig($dataId, $group);
-        self::assertSame($value, $newValue);
+        var_dump($auth->getAccessToken());
+//
+//        $client = new NacosClient('127.0.0.1', 8848);
+//        $group ="dev";
+//        $dataId = "micro-service-conf";
+//        $newValue = $client->getConfig($dataId, $group,["accessToken"=>$auth->getAccessToken()]);
+//        echo "========";
+//        var_dump($newValue);
+//        echo "=========";
+//        self::assertSame(false, $newValue);
     }
 }

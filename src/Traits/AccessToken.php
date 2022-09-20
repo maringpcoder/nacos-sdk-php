@@ -29,24 +29,15 @@ trait AccessToken
      */
     public function getAccessToken(): ?string
     {
-        $username = 'nacos';
-        $password = 'nacos';
-
-        if ($username === null || $password === null) {
+        if ($this->username === null || $this->password === null) {
             return null;
         }
-
-        if (! $this->isExpired()) {
+        if (!$this->isExpired()) {
             return $this->accessToken;
         }
-
-        $result = $this->handleResponse(
-            $this->app->auth->login($username, $password)
-        );
-
+        $result = $this->login($this->username, $this->password);
         $this->accessToken = $result['accessToken'];
         $this->expireTime = $result['tokenTtl'] + time();
-
         return $this->accessToken;
     }
 

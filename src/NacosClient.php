@@ -17,9 +17,11 @@ use Nacos\Models\BeatResult;
 use Nacos\Models\Config;
 use Nacos\Models\ServiceInstance;
 use Nacos\Models\ServiceInstanceList;
+use Nacos\Traits\AccessToken;
 
 class NacosClient
 {
+    use AccessToken;
     const DEFAULT_PORT = 8848;
     const DEFAULT_TIMEOUT = 3;
 
@@ -139,19 +141,22 @@ class NacosClient
 
     /**
      * Get Config Option
-     * 
-     * @param string $dataId
-     * @param string $group
+     *
+     * @param string $dataId 数据id
+     * @param string $group 数据分组
+     * @param array $auth 如果server需要鉴权,需要输入鉴权信息
      * @return string
-     * @throws NacosConfigNotFound
      */
-    public function getConfig(string $dataId, string $group = self::DEFAULT_GROUP)
+    public function getConfig(string $dataId, string $group = self::DEFAULT_GROUP,array $auth=[])
     {
         $query = [
             'dataId' => $dataId,
             'group' => $group
         ];
-
+        if (!empty($auth)){
+            $query = array_merge($query,$auth);
+        }
+        var_dump($query);
         if ($this->namespace) {
             $query['tenant'] = $this->namespace;
         }

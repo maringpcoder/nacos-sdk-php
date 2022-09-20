@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nacos;
 
+use Nacos\Exceptions\NacosConnectionException;
 use Nacos\Traits\AccessToken;
 
 class NacosAuth
@@ -14,6 +15,15 @@ class NacosAuth
      * @var NacosClient
      */
     protected $client;
+    /**
+     * @var $username ,用户名
+     */
+    private $username;
+
+    /**
+     * @var $password,密码
+     */
+    private $password;
 
     /**
      * @param NacosClient $client
@@ -32,7 +42,15 @@ class NacosAuth
     {
         $res = $this->client->login($username, $password);
         $content = json_decode($res,true);
-        $this->accessToken = $content['accessToken'];
-        $this->expireTime = $content['tokenTtl'];
+        if (isset($content["accessToken"])){
+            $this->username=$username;
+            $this->password=$password;
+            $this->accessToken = $content['accessToken'];
+            $this->expireTime = $content['tokenTtl'];
+            return $content;
+        }else{
+            throw new NacosConnectionException();
+        }
+
     }
 }
