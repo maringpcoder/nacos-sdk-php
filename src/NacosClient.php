@@ -156,7 +156,6 @@ class NacosClient
         if (!empty($auth)){
             $query = array_merge($query,$auth);
         }
-        var_dump($query);
         if ($this->namespace) {
             $query['tenant'] = $this->namespace;
         }
