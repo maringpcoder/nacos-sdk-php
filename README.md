@@ -26,13 +26,12 @@ composer require tinywan/nacos-sdk-php
 use Nacos\NacosClient;
 
 $client = new NacosClient('localhost', 8848);
-
 $dataId = 'database.php';
 $group = 'DEFAULT_GROUP';
 $result = $client->getConfig($dataId, $group);
 ```
 
-if `nacos.core.auth.enabled=false`
+if `nacos.core.auth.enabled=true`
 
 ```php
 use Nacos\NacosClient;
@@ -42,7 +41,7 @@ $client = new NacosClient('localhost', 8848);
 
 $auth = new NacosAuth($client);
 $auth->login('nacos','nacos');
-$token = $auth
+$token = $auth->getAccessToken();
 $dataId = 'database.php';
 $group = 'DEFAULT_GROUP';
 $client->setNamespace("01ae5458-c846-4440-88f4-ec0106c88f82");
