@@ -42,9 +42,12 @@ $client = new NacosClient('localhost', 8848);
 
 $auth = new NacosAuth($client);
 $auth->login('nacos','nacos');
+$token = $auth
 $dataId = 'database.php';
 $group = 'DEFAULT_GROUP';
-$result = $client->getConfig($dataId, $group);
+$client->setNamespace("01ae5458-c846-4440-88f4-ec0106c88f82");
+$config = $client->getConfig("micro-service-conf", "dev", ["accessToken" => $auth->getAccessToken()]);
+
 ```
 
 ## Use Namespace
